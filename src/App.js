@@ -9,14 +9,19 @@ import MoneyIcon from '@material-ui/icons/AttachMoney';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import Expense from './Expense';
 import Dashboard from './Dashboard';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  paper: {
-    marginTop: theme.spacing(4),
-  }
+  title: {
+    flexGrow: 1,
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 const App = () => {
@@ -29,10 +34,14 @@ const App = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar>
-        <Typography variant="h6" align="center">
-           MyExpense
-        </Typography>
+      <AppBar position="static">
+        <Toolbar>
+          <Button variant="outlined" color="inherit" className={classes.button}>Sign up</Button>
+          <Typography variant="h6" className={classes.title} align="center">
+            MyExpense
+          </Typography>
+          <Button variant="outlined" color="inherit" className={classes.button}>Sign in</Button>
+        </Toolbar>
       </AppBar>
       <Paper className={classes.paper}>
         <Tabs

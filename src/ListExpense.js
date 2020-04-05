@@ -5,19 +5,25 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import {makeStyles} from '@material-ui/core';
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import ExpenseCard from "./ExpenseCard";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import {useSnackbar} from "notistack";
+import {Box, makeStyles} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import ExpenseCard from './ExpenseCard';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {useSnackbar} from 'notistack';
 
 const useStyles = makeStyles(theme => ({
+  expense_list: {
+    'background-color': '#f2f2f2'
+  },
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
+  box: {
+    padding: theme.spacing(16),
+  }
 }));
 
 const ListExpense = ({setCreateExpense}) => {
@@ -42,11 +48,15 @@ const ListExpense = ({setCreateExpense}) => {
         enqueueSnackbar('Error occurred while fetching expenses', {variant: "error"} );
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [enqueueSnackbar]);
 
   return (
-    <div id="expense_list">
-      {loading ? <CircularProgress /> :
+    <div id="expense_list" className={classes.expense_list} >
+      {loading ?
+        <Box display="flex" justifyContent="center" className={classes.box}>
+          <CircularProgress />
+        </Box>
+        :
         <React.Fragment>
           <Container component="main" maxWidth="xs">
             <Grid container>
