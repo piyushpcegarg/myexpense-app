@@ -12,6 +12,7 @@ import {DatePicker} from '@material-ui/pickers';
 import { useForm, Controller } from 'react-hook-form';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import {FirebaseHOC} from './firebase/Context';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CreateExpense = ({setCreateExpense, showSnackBar}) => {
+const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
 
   const { register, handleSubmit, setValue, errors, control } = useForm();
   const classes = useStyles();
@@ -36,14 +37,7 @@ const CreateExpense = ({setCreateExpense, showSnackBar}) => {
 
   const onSubmit = data => {
 
-    /* Added timestamp field and changed field type of amount to number */
-    data.timestamp = firebase.firestore.Timestamp.now();
-    data.amount = Number.parseInt(data['amount']);
-
-    const db = firebase.firestore();
-    const expensesReference = db.collection('expenses');
-
-    expensesReference.add(data)
+    firebaseRef.createExpense(data)
       .then((doc) => {
         showSnackBar('Saved Successfully', 'success');
       })
@@ -207,4 +201,4 @@ CreateExpense.propTypes = {
   showSnackBar: PropTypes.func.isRequired,
 }
 
-export default CreateExpense;
+export default FirebaseHOC(CreateExpense);

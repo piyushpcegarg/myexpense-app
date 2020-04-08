@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import {Box, makeStyles} from '@material-ui/core';
@@ -11,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import ExpenseCard from './ExpenseCard';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useSnackbar} from 'notistack';
+import {FirebaseHOC} from './firebase/Context';
 
 const useStyles = makeStyles(theme => ({
   expense_list: {
@@ -26,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ListExpense = ({setCreateExpense}) => {
+const ListExpense = ({setCreateExpense, firebaseRef}) => {
 
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
@@ -35,20 +33,16 @@ const ListExpense = ({setCreateExpense}) => {
 
   React.useEffect(() => {
 
-    const db = firebase.firestore();
-    const expensesReference = db.collection('expenses');
-    const expenses = expensesReference.orderBy('date', 'desc');
-
-    expenses.get({source: "server"})
+    firebaseRef.getExpenses()
       .then((querySnapshot) => {
         setExpenseList(querySnapshot.docs);
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
-        enqueueSnackbar('Error occurred while fetching expenses', {variant: "error"} );
+        console.log("Error occurred while fetching expenses: ", error);
+        enqueueSnackbar("Error occurred while fetching expenses", {variant: "error"} );
       })
       .finally(() => setLoading(false));
-  }, [enqueueSnackbar]);
+  }, [enqueueSnackbar, firebaseRef]);
 
   return (
     <div id="expense_list" className={classes.expense_list} >
@@ -82,4 +76,4 @@ ListExpense.propTypes = {
   setCreateExpense: PropTypes.func.isRequired
 }
 
-export default ListExpense;
+export default FirebaseHOC(ListExpense);

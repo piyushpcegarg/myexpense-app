@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    fontStyle: 'italic'
   },
   button: {
     margin: theme.spacing(1),
