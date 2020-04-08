@@ -7,8 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import MoneyIcon from '@material-ui/icons/AttachMoney';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import Expense from './Expense';
-import Dashboard from './Dashboard';
+import Expense from './pages/Expense';
+import Dashboard from './pages/Dashboard';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 

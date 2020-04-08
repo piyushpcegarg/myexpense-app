@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import ExpenseCard from './ExpenseCard';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useSnackbar} from 'notistack';
-import {FirebaseHOC} from './firebase/Context';
+import {FirebaseHOC} from '../firebase/Context';
 
 const useStyles = makeStyles(theme => ({
   expense_list: {
@@ -57,7 +57,7 @@ const ListExpense = ({setCreateExpense, firebaseRef}) => {
               {
                 expenseList.map(expense =>
                   <Grid key={expense.id} item xs={12}>
-                    <ExpenseCard expense={expense.data()}></ExpenseCard>
+                    <ExpenseCard expense={expense.data()}/>
                   </Grid>
                 )
               }
@@ -74,6 +74,6 @@ const ListExpense = ({setCreateExpense, firebaseRef}) => {
 
 ListExpense.propTypes = {
   setCreateExpense: PropTypes.func.isRequired
-}
+};
 
 export default FirebaseHOC(ListExpense);

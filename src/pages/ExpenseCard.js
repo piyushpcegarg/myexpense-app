@@ -7,8 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import { format } from 'date-fns'
-import Categories from './Categories';
-import ExpenseModes from './ExpenseModes';
+import Categories from '../constants/Categories';
+import ExpenseModes from '../constants/ExpenseModes';
 
 const useStyles = makeStyles(theme => ({
   card: {

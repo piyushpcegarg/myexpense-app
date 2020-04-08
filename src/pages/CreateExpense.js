@@ -5,14 +5,14 @@ import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Categories from './Categories';
-import ExpenseModes from './ExpenseModes';
+import Categories from '../constants/Categories';
+import ExpenseModes from '../constants/ExpenseModes';
 import MenuItem from '@material-ui/core/MenuItem';
 import {DatePicker} from '@material-ui/pickers';
 import { useForm, Controller } from 'react-hook-form';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import {FirebaseHOC} from './firebase/Context';
+import {FirebaseHOC} from '../firebase/Context';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -42,6 +42,7 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
         showSnackBar('Saved Successfully', 'success');
       })
       .catch((error) => {
+        console.log("Error occurred while creating expense: ", error);
         showSnackBar('Some error occurred', 'error');
       })
       .finally(() => setCreateExpense(false));
@@ -199,6 +200,6 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
 CreateExpense.propTypes = {
   setCreateExpense: PropTypes.func.isRequired,
   showSnackBar: PropTypes.func.isRequired,
-}
+};
 
 export default FirebaseHOC(CreateExpense);
