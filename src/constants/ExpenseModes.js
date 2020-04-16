@@ -4,7 +4,8 @@ const ExpenseModes = new Map([
   ['PAY_TM', 'PayTM'],
   ['GOOGLE_PAY', 'Google Pay'],
   ['NET_BANKING', 'Net Banking'],
-  ['DEBIT_CARD', 'Debit Card']
+  ['DEBIT_CARD', 'Debit Card'],
+  ['ZETA_CARD', 'Zeta Card']
 ]);
 
 export default ExpenseModes;

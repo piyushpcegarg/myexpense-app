@@ -10,8 +10,6 @@ import ExpenseModes from '../constants/ExpenseModes';
 import MenuItem from '@material-ui/core/MenuItem';
 import {DatePicker} from '@material-ui/pickers';
 import { useForm, Controller } from 'react-hook-form';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
 import {FirebaseHOC} from '../firebase/Context';
 
 const useStyles = makeStyles(theme => ({
@@ -32,8 +30,8 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
 
   React.useEffect(() => {
     register({ name: "date" });
-    setValue("date", firebase.firestore.Timestamp.fromMillis(Date.parse(date.toDateString())));
-  }, );
+    setValue("date", date);
+  }, []);
 
   const onSubmit = data => {
 
@@ -108,7 +106,7 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
               value={date}
               onChange={(val) => {
                 setDate(val);
-                setValue("date", firebase.firestore.Timestamp.fromMillis(Date.parse(val.toDateString())));
+                setValue("date", val);
               }}
             />
           </Grid>

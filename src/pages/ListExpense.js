@@ -42,7 +42,7 @@ const ListExpense = ({setCreateExpense, firebaseRef}) => {
         enqueueSnackbar("Error occurred while fetching expenses", {variant: "error"} );
       })
       .finally(() => setLoading(false));
-  }, [enqueueSnackbar, firebaseRef]);
+  }, []);
 
   return (
     <div id="expense_list" className={classes.expense_list} >

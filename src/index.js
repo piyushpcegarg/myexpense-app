@@ -11,6 +11,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { SnackbarProvider } from 'notistack';
 import Firebase from './firebase/Firebase';
 import { FirebaseProvider } from './firebase/Context';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const MyExpenseApp = () => {
 
@@ -19,9 +20,11 @@ const MyExpenseApp = () => {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <SnackbarProvider autoHideDuration={3000}>
           <FirebaseProvider value={Firebase}>
-            {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <App />
+            <Router>
+              {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              <App />
+            </Router>
           </FirebaseProvider>
         </SnackbarProvider>
       </MuiPickersUtilsProvider>
