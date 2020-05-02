@@ -15,7 +15,6 @@ import {FirebaseHOC} from '../firebase/Context';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -51,7 +50,6 @@ const SignUpForm = ({firebaseRef}) => {
   const [phoneNumberReadOnly, setPhoneNumberReadOnly] = React.useState(false);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const recaptchaContainerRef = React.useRef(null);
-  const history = useHistory();
   let applicationVerifier;
 
   setTimeout(() => {
@@ -68,7 +66,7 @@ const SignUpForm = ({firebaseRef}) => {
       confirmationResult
         .confirm(data.verificationCode)
         .then((userCredential) => {
-          history.replace("/home");
+          console.log('User is successfully authenticated with credentials: ' + userCredential.user.toJSON());
         })
         .catch((error) => {
           console.log("Error occurred while validating OTP: ", error);
@@ -80,7 +78,6 @@ const SignUpForm = ({firebaseRef}) => {
     } else {
       firebaseRef.signIn('+91' + data.phoneNumber, applicationVerifier)
         .then((confirmResult) => {
-          console.log('I am confirm');
           setConfirmationResult(confirmResult);
           setPhoneNumberReadOnly(true);
           setSignUpButtonLabel('Verify');

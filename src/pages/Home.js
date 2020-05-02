@@ -11,7 +11,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Expense from "./Expense";
+import Expense from './Expense';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MoneyIcon from '@material-ui/icons/AttachMoney';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import SignOutDialog from './SignOutDialog';
+import Dashboard from './Dashboard';
 
 const drawerWidth = 240;
 
@@ -51,14 +56,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Home(props) {
-  const { container } = props;
+const Home = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [selectedComponent, setSelectedComponent] = React.useState('dashboard');
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const renderComponent = {
+    'dashboard': <Dashboard />,
+    'expense': <Expense />,
+    'signout': <SignOutDialog />,
   };
 
   const drawer = (
@@ -66,11 +77,24 @@ function Home(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Dashboard', 'Expense', 'Sign out'].map((text) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button onClick={() => setSelectedComponent('dashboard')}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button onClick={() => setSelectedComponent('expense')}>
+          <ListItemIcon>
+            <MoneyIcon />
+          </ListItemIcon>
+          <ListItemText primary="Expense" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button onClick={() => setSelectedComponent('signout')}>
+          <ListItemText primary="Sign out" />
+        </ListItem>
       </List>
     </div>
   );
@@ -97,7 +121,6 @@ function Home(props) {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
@@ -125,7 +148,9 @@ function Home(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <Expense />
+        {
+          renderComponent[selectedComponent]
+        }
       </main>
     </div>
   );

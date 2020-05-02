@@ -32,7 +32,7 @@ const LandingPage = () => {
             MyExpense
           </Typography>
           <Button variant="outlined" color="inherit" className={classes.button}
-            component={Link} to="/home">Sign in</Button>
+            component={Link} to="/signin">Sign in</Button>
         </Toolbar>
       </AppBar>
     </div>

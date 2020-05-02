@@ -1,19 +1,37 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import SignUp from './pages/SignUp';
-import PrivateRoute from './navigation/PrivateRoute';
-import Home from './pages/Home';
+import routes from './constants/routes';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import { useHistory } from 'react-router-dom';
 
 const App = () => {
+
+  const history = useHistory();
+
+  React.useEffect(() => {
+
+    firebase.auth().onAuthStateChanged((user) => {
+
+      if (user) {
+        history.replace('/home');
+      } else {
+        history.replace('/');
+      }
+    });
+  },[history]);
 
   return (
     <div id="myexpense-app">
       <Switch>
-        <Route path='/' exact component={LandingPage} />
-        <Route path='/signup' component={SignUp} />
-        <Route path='/signin' component={SignUp} />
-        <PrivateRoute path='/home' component={Home} />
+        {routes.map(route => (
+          <Route
+            key={route.path}
+            path={route.path}
+            exact={route.exact}
+            component={route.component}
+          />
+        ))}
       </Switch>
     </div>
   );

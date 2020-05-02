@@ -4,7 +4,6 @@ import 'firebase/firestore';
 import firebaseConfig from './FirebaseConfig';
 
 // Initialize Firebase
-console.log('Initialize firebase' + new Date());
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
@@ -22,6 +21,11 @@ const Firebase = {
   signIn: (phoneNumber, applicationVerifier) => {
 
     return auth.signInWithPhoneNumber(phoneNumber, applicationVerifier);
+  },
+
+  signOut: () => {
+    auth.signOut()
+      .then(() => console.log('User has logged out successfully.'));
   },
 
   // firestore
