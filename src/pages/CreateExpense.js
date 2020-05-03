@@ -86,7 +86,7 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
               label="Title"
               inputRef={register({
                 required: 'title is required',
-                minLength: {value: 5, message: 'minimum 5 characters required'},
+                minLength: {value: 3, message: 'minimum 3 characters required'},
                 maxLength: {value: 100, message: 'maximum 100 characters allowed'}
               })}
               error={!!errors.title}

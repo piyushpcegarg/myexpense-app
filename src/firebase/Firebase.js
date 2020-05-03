@@ -31,7 +31,9 @@ const Firebase = {
   // firestore
   getExpenses: () => {
 
-    const expenses = expensesReference.orderBy('date', 'desc');
+    const expenses = expensesReference
+      .where('uid', '==', auth.currentUser.uid)
+      .orderBy('date', 'desc');
     return expenses.get({source: "server"});
   },
 
@@ -44,6 +46,7 @@ const Firebase = {
     /* Changed field type of date to firestore timestamp */
     expenseData.date = firebase.firestore.Timestamp.fromMillis(
       Date.parse(expenseData.date.toDateString()));
+    expenseData.uid = auth.currentUser.uid;
 
     return expensesReference.add(expenseData);
   }

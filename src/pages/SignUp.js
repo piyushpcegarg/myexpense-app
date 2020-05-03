@@ -62,7 +62,6 @@ const SignUpForm = ({firebaseRef}) => {
   const onSubmit = data => {
 
     if (confirmationResult) {
-      console.log(confirmationResult);
       confirmationResult
         .confirm(data.verificationCode)
         .then((userCredential) => {
