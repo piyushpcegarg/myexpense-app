@@ -9,8 +9,7 @@ const Categories = new Map([
   ['BILL', 'Recharge & Bills'],
   ['MEDICINE', 'Medicines'],
   ['HOSPITAL', 'Hospital'],
-  ['MISCELLANEOUS', 'miscellaneous']
-
+  ['MISCELLANEOUS', 'miscellaneous'],
 ]);
 
 export default Categories;

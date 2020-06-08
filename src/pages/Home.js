@@ -20,7 +20,7 @@ import Dashboard from './Dashboard';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -67,9 +67,9 @@ const Home = () => {
   };
 
   const renderComponent = {
-    'dashboard': <Dashboard />,
-    'expense': <Expense />,
-    'signout': <SignOutDialog />,
+    dashboard: <Dashboard />,
+    expense: <Expense />,
+    signout: <SignOutDialog />,
   };
 
   const drawer = (
@@ -112,7 +112,7 @@ const Home = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title} >
+          <Typography variant="h6" className={classes.title}>
             MyExpense
           </Typography>
         </Toolbar>
@@ -148,12 +148,10 @@ const Home = () => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        {
-          renderComponent[selectedComponent]
-        }
+        {renderComponent[selectedComponent]}
       </main>
     </div>
   );
-}
+};
 
 export default Home;

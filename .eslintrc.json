@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "react-app",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/react"
+  ],
+  "rules": {
+    "indent": [
+      "error",
+      2
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
+    "react/jsx-max-props-per-line": [
+      "error",
+      { "maximum": 1, "when": "multiline" }
+    ]
+  }
+}

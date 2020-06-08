@@ -9,14 +9,15 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm } from 'react-hook-form';
-import {useSnackbar} from 'notistack';
+import { useSnackbar } from 'notistack';
 import Footer from '../layout/Footer';
-import {FirebaseHOC} from '../firebase/Context';
+import { FirebaseHOC } from '../firebase/Context';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
@@ -41,8 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignUpForm = ({firebaseRef}) => {
-
+const SignUpForm = ({ firebaseRef }) => {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm();
   const { enqueueSnackbar } = useSnackbar();
@@ -54,46 +54,59 @@ const SignUpForm = ({firebaseRef}) => {
 
   setTimeout(() => {
     // 'sign-up' is the ID of the button that submits your sign-up form.
-    applicationVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      'size': 'invisible'
-    });
+    applicationVerifier = new firebase.auth.RecaptchaVerifier(
+      'recaptcha-container',
+      {
+        size: 'invisible',
+      }
+    );
   }, 1000);
 
-  const onSubmit = data => {
-
+  const onSubmit = (data) => {
     if (confirmationResult) {
       confirmationResult
         .confirm(data.verificationCode)
         .then((userCredential) => {
-          console.log('User is successfully authenticated with credentials: ' + userCredential.user.toJSON());
+          console.log(
+            'User is successfully authenticated with credentials: ' +
+              userCredential.user.toJSON()
+          );
         })
         .catch((error) => {
-          console.log("Error occurred while validating OTP: ", error);
+          console.log('Error occurred while validating OTP: ', error);
           if (error.code === 'auth/invalid-verification-code')
-            error.message = 'Invalid OTP' ;
-          enqueueSnackbar(error.message, {variant: "error"} );
+            error.message = 'Invalid OTP';
+          enqueueSnackbar(error.message, { variant: 'error' });
         });
-
     } else {
-      firebaseRef.signIn('+91' + data.phoneNumber, applicationVerifier)
+      firebaseRef
+        .signIn('+91' + data.phoneNumber, applicationVerifier)
         .then((confirmResult) => {
           setConfirmationResult(confirmResult);
           setPhoneNumberReadOnly(true);
           setSignUpButtonLabel('Verify');
-          enqueueSnackbar('OTP has been sent to ' + data.phoneNumber, {variant: "info"} );
+          enqueueSnackbar('OTP has been sent to ' + data.phoneNumber, {
+            variant: 'info',
+          });
         })
         .catch((error) => {
-          console.log("Error occurred while sending OTP: ", error);
+          console.log('Error occurred while sending OTP: ', error);
           applicationVerifier.clear();
-          recaptchaContainerRef.current.innerHTML = '<div id="recaptcha-container" />';
-          enqueueSnackbar(error.message, {variant: "error"} );
+          recaptchaContainerRef.current.innerHTML =
+            '<div id="recaptcha-container" />';
+          enqueueSnackbar(error.message, { variant: 'error' });
         });
     }
-  }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
-      <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={classes.form}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <TextField
@@ -105,18 +118,18 @@ const SignUpForm = ({firebaseRef}) => {
               type="number"
               id="phoneNumber"
               inputProps={{
-                readOnly: phoneNumberReadOnly
+                readOnly: phoneNumberReadOnly,
               }}
               inputRef={register({
                 required: 'Phone Number is required',
-                minLength: {value: 10, message: 'minimum 10 digits required'},
-                maxLength: {value: 10, message: 'maximum 10 digits allowed'}
+                minLength: { value: 10, message: 'minimum 10 digits required' },
+                maxLength: { value: 10, message: 'maximum 10 digits allowed' },
               })}
               error={!!errors.phoneNumber}
               helperText={errors?.phoneNumber?.message}
             />
           </Grid>
-          { phoneNumberReadOnly ?
+          {phoneNumberReadOnly ? (
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -128,14 +141,16 @@ const SignUpForm = ({firebaseRef}) => {
                 id="verificationCode"
                 inputRef={register({
                   required: 'Verification code is required',
-                  minLength: {value: 6, message: 'minimum 6 digits required'},
-                  maxLength: {value: 6, message: 'maximum 6 digits allowed'}
+                  minLength: { value: 6, message: 'minimum 6 digits required' },
+                  maxLength: { value: 6, message: 'maximum 6 digits allowed' },
                 })}
                 error={!!errors.verificationCode}
                 helperText={errors?.verificationCode?.message}
               />
-            </Grid> : <Grid />
-          }
+            </Grid>
+          ) : (
+            <Grid />
+          )}
         </Grid>
         <Button
           id="sign-up"
@@ -149,7 +164,7 @@ const SignUpForm = ({firebaseRef}) => {
           {signUpButtonLabel} OTP
         </Button>
       </form>
-      <div ref={recaptchaContainerRef} >
+      <div ref={recaptchaContainerRef}>
         <div id="recaptcha-container" />
       </div>
       <Button
@@ -166,7 +181,11 @@ const SignUpForm = ({firebaseRef}) => {
   );
 };
 
-const SignUp = ({firebaseRef}) => {
+SignUpForm.propTypes = {
+  firebaseRef: PropTypes.func.isRequired,
+};
+
+const SignUp = ({ firebaseRef }) => {
   const classes = useStyles();
 
   return (
@@ -176,13 +195,17 @@ const SignUp = ({firebaseRef}) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-                    MyExpense
+          MyExpense
         </Typography>
         <SignUpForm firebaseRef={firebaseRef} />
       </div>
       <Footer />
     </Container>
   );
+};
+
+SignUp.propTypes = {
+  firebaseRef: PropTypes.func.isRequired,
 };
 
 export default FirebaseHOC(SignUp);

@@ -14,7 +14,6 @@ import { FirebaseProvider } from './firebase/Context';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const MyExpenseApp = () => {
-
   return (
     <ThemeProvider theme={theme}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -8,11 +8,11 @@ import Button from '@material-ui/core/Button';
 import Categories from '../constants/Categories';
 import ExpenseModes from '../constants/ExpenseModes';
 import MenuItem from '@material-ui/core/MenuItem';
-import {DatePicker} from '@material-ui/pickers';
+import { DatePicker } from '@material-ui/pickers';
 import { useForm, Controller } from 'react-hook-form';
-import {FirebaseHOC} from '../firebase/Context';
+import { FirebaseHOC } from '../firebase/Context';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
@@ -22,25 +22,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
-
+const CreateExpense = ({ setCreateExpense, showSnackBar, firebaseRef }) => {
   const { register, handleSubmit, setValue, errors, control } = useForm();
   const classes = useStyles();
   const [date, setDate] = React.useState(new Date());
 
   React.useEffect(() => {
-    register({ name: "date" });
-    setValue("date", date);
-  }, []);
+    register({ name: 'date' });
+    setValue('date', date);
+  }, [date, register, setValue]);
 
-  const onSubmit = data => {
-
-    firebaseRef.createExpense(data)
+  const onSubmit = (data) => {
+    firebaseRef
+      .createExpense(data)
       .then((doc) => {
         showSnackBar('Saved Successfully', 'success');
       })
       .catch((error) => {
-        console.log("Error occurred while creating expense: ", error);
+        console.log('Error occurred while creating expense: ', error);
         showSnackBar('Some error occurred', 'error');
       })
       .finally(() => setCreateExpense(false));
@@ -48,14 +47,19 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={classes.form}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Controller
               name="category"
               control={control}
               rules={{ required: 'select category' }}
-              defaultValue=''
+              defaultValue=""
               as={
                 <TextField
                   variant="outlined"
@@ -66,16 +70,15 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
                   error={!!errors.category}
                   helperText={errors?.category?.message}
                 >
-                  {<MenuItem value=''>None</MenuItem>}
-                  {Array.from(Categories.entries()).map(entry => (
+                  {<MenuItem value="">None</MenuItem>}
+                  {Array.from(Categories.entries()).map((entry) => (
                     <MenuItem key={entry[0]} value={entry[0]}>
                       {entry[1]}
                     </MenuItem>
                   ))}
                 </TextField>
               }
-            >
-            </Controller>
+            ></Controller>
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -86,8 +89,14 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
               label="Title"
               inputRef={register({
                 required: 'title is required',
-                minLength: {value: 3, message: 'minimum 3 characters required'},
-                maxLength: {value: 100, message: 'maximum 100 characters allowed'}
+                minLength: {
+                  value: 3,
+                  message: 'minimum 3 characters required',
+                },
+                maxLength: {
+                  value: 100,
+                  message: 'maximum 100 characters allowed',
+                },
               })}
               error={!!errors.title}
               helperText={errors?.title?.message}
@@ -106,7 +115,7 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
               value={date}
               onChange={(val) => {
                 setDate(val);
-                setValue("date", val);
+                setValue('date', val);
               }}
             />
           </Grid>
@@ -120,14 +129,17 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
               type="number"
               InputProps={{
                 inputProps: {
-                  'min' : '0',
-                  'max' : '999999'
+                  min: '0',
+                  max: '999999',
                 },
               }}
               inputRef={register({
                 required: 'amount is required',
-                min: {value: 0, message: 'amount should be positive'},
-                max: {value: 999999, message: 'exceeded maximum amount limit'}
+                min: { value: 0, message: 'amount should be positive' },
+                max: {
+                  value: 999999,
+                  message: 'exceeded maximum amount limit',
+                },
               })}
               error={!!errors.amount}
               helperText={errors?.amount?.message}
@@ -138,7 +150,7 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
               name="mode"
               control={control}
               rules={{ required: 'select mode' }}
-              defaultValue=''
+              defaultValue=""
               as={
                 <TextField
                   variant="outlined"
@@ -149,16 +161,15 @@ const CreateExpense = ({setCreateExpense, showSnackBar, firebaseRef}) => {
                   error={!!errors.mode}
                   helperText={errors?.mode?.message}
                 >
-                  {<MenuItem value=''>None</MenuItem>}
-                  {Array.from(ExpenseModes.entries()).map(entry => (
+                  {<MenuItem value="">None</MenuItem>}
+                  {Array.from(ExpenseModes.entries()).map((entry) => (
                     <MenuItem key={entry[0]} value={entry[0]}>
                       {entry[1]}
                     </MenuItem>
                   ))}
                 </TextField>
               }
-            >
-            </Controller>
+            ></Controller>
           </Grid>
           <Grid item xs={12}>
             <TextField

@@ -13,8 +13,8 @@ export const FirebaseConsumer = FirebaseContext.Consumer;
  * @returns {function(*): *}
  * @constructor
  */
-export const FirebaseHOC = Component => props => (
+export const FirebaseHOC = (Component) => (props) => (
   <FirebaseConsumer>
-    {state => <Component {...props} firebaseRef={state} />}
+    {(state) => <Component {...props} firebaseRef={state} />}
   </FirebaseConsumer>
 );
