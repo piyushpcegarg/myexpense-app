@@ -209,6 +209,7 @@ const CreateExpense = ({ setCreateExpense, showSnackBar, firebaseRef }) => {
 CreateExpense.propTypes = {
   setCreateExpense: PropTypes.func.isRequired,
   showSnackBar: PropTypes.func.isRequired,
+  firebaseRef: PropTypes.object.isRequired,
 };
 
 export default FirebaseHOC(CreateExpense);
