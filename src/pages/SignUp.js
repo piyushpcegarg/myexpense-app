@@ -13,7 +13,7 @@ import { useSnackbar } from 'notistack';
 import Footer from '../layout/Footer';
 import { FirebaseHOC } from '../firebase/Context';
 import { Link } from 'react-router-dom';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import 'firebase/auth';
 import PropTypes from 'prop-types';
 
@@ -182,7 +182,7 @@ const SignUpForm = ({ firebaseRef }) => {
 };
 
 SignUpForm.propTypes = {
-  firebaseRef: PropTypes.func.isRequired,
+  firebaseRef: PropTypes.object.isRequired,
 };
 
 const SignUp = ({ firebaseRef }) => {
@@ -205,7 +205,7 @@ const SignUp = ({ firebaseRef }) => {
 };
 
 SignUp.propTypes = {
-  firebaseRef: PropTypes.func.isRequired,
+  firebaseRef: PropTypes.object.isRequired,
 };
 
 export default FirebaseHOC(SignUp);

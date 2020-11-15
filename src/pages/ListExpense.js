@@ -78,7 +78,7 @@ const ListExpense = ({ setCreateExpense, firebaseRef }) => {
 
 ListExpense.propTypes = {
   setCreateExpense: PropTypes.func.isRequired,
-  firebaseRef: PropTypes.func.isRequired,
+  firebaseRef: PropTypes.object.isRequired,
 };
 
 export default FirebaseHOC(ListExpense);

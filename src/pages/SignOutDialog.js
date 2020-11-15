@@ -37,7 +37,7 @@ const SignOutDialog = ({ firebaseRef }) => {
 };
 
 SignOutDialog.propTypes = {
-  firebaseRef: PropTypes.func.isRequired,
+  firebaseRef: PropTypes.object.isRequired,
 };
 
 export default FirebaseHOC(SignOutDialog);
